@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepack": "tsc && ../../scripts/prepack.sh",
+    "prepack": "tsc && cp -r src/templates dist/templates && ../../scripts/prepack.sh",
     "postpack": "rm -f oclif.manifest.json npm-shrinkwrap.json && rm -rf ./dist && git checkout ./package.json",
     "type:check": "tsc"
   },
