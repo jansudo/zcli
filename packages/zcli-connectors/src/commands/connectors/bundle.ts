@@ -107,7 +107,14 @@ export default class Bundle extends Command {
       }
 
       spinner.text = chalk.cyan('Running TypeScript type check...')
-      execFileSync('tsc', ['--noEmit', '--project', projectPath], { stdio: 'inherit' })
+      const tscBinaryName = process.platform === 'win32' ? 'tsc.cmd' : 'tsc'
+      const tscPath = join(projectPath, 'node_modules/.bin', tscBinaryName)
+      if (!existsSync(tscPath)) {
+        spinner.stop()
+        spinner.info(chalk.yellow('TypeScript not found in node_modules/.bin/tsc, skipping type check.'))
+        return
+      }
+      execFileSync(tscPath, ['--noEmit', '--project', projectPath], { stdio: 'inherit' })
       spinner.succeed(chalk.green('TypeScript compilation check passed'))
     } catch (error) {
       spinner.fail(chalk.red('TypeScript type check failed'))

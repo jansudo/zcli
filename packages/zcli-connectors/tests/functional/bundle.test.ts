@@ -20,7 +20,10 @@ describe('bundle', () => {
     fsStubs = {
       existsSync: sinon.stub(fs, 'existsSync').callsFake((path: fs.PathLike) => {
         const pathStr = String(path)
-        // Return false for tsconfig.json (to skip type check) and for non-existent connector dirs in specific tests
+        // Return false for tsconfig.json to skip the type check in most tests.
+        // node_modules/.bin/tsc is only reached when tsconfig.json exists, so it
+        // doesn't need special-casing here — tests that exercise the tsc path
+        // override existsSync directly.
         if (pathStr.includes('tsconfig.json')) return false
         if (pathStr.includes('/nonexistent') || pathStr.includes('\\nonexistent')) return false
         return true // connector root and dist directories exist by default
@@ -160,6 +163,24 @@ describe('bundle', () => {
     )
   })
 
+  it('should skip type check when node_modules/.bin/tsc does not exist', async () => {
+    (bundleCommand as any).parse = sinon.stub().resolves({
+      args: { path: './test-dir' },
+      flags: { watch: false, verbose: false }
+    })
+
+    fsStubs.existsSync.callsFake((path: fs.PathLike) => {
+      const pathStr = String(path)
+      if (/node_modules[\\/]\.bin[\\/]tsc(\.cmd)?$/.test(pathStr)) return false
+      if (pathStr.includes('/nonexistent') || pathStr.includes('\\nonexistent')) return false
+      return true
+    })
+
+    await bundleCommand.run()
+
+    expect(viteStubs.run).to.have.been.called
+  })
+
   it('should fail bundle if TypeScript compilation fails', async () => {
     (bundleCommand as any).parse = sinon.stub().resolves({
       args: { path: './test-dir' },
@@ -168,8 +189,7 @@ describe('bundle', () => {
 
     fsStubs.existsSync.returns(true)
 
-    const execSyncStub = sinon.stub(childProcess, 'execFileSync')
-    execSyncStub.throws(new Error('TypeScript compilation error'))
+    const execSyncStub = sinon.stub(childProcess, 'execFileSync').throws(new Error('TypeScript compilation error'))
 
     try {
       await bundleCommand.run()
