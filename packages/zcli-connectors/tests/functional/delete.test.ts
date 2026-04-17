@@ -320,7 +320,7 @@ describe('delete command', () => {
       })
     })
 
-    it('should handle 404 Not Found response', async () => {
+    it('should handle 404 Not Found response with specific not-found message', async () => {
       requestAPIStub.resolves({
         status: 404,
         data: { error: 'Not Found' }
@@ -335,9 +335,36 @@ describe('delete command', () => {
 
       sinon.assert.calledWith(
         errorStub,
-        sinon.match(/Failed to delete connector: HTTP 404/),
+        sinon.match(/Connector 'test-connector' not found\. It may have already been deleted or does not exist\./),
         sinon.match({ exit: 1 })
       )
+    })
+
+    it('should log verbose error details on 404 when verbose flag is set', async () => {
+      parseStub.restore()
+      parseStub = sinon.stub(deleteCommand, 'parse' as any).resolves({
+        args: { connector: 'test-connector' },
+        flags: {
+          verbose: true,
+          force: true,
+          help: false
+        }
+      })
+
+      requestAPIStub.resolves({
+        status: 404,
+        data: { error: 'Not Found' }
+      })
+
+      try {
+        await deleteCommand.run()
+        expect.fail('Should have thrown an error')
+      } catch (error) {
+        // Expected
+      }
+
+      sinon.assert.calledWith(logStub, sinon.match(/Error Details:/))
+      sinon.assert.calledWith(logStub, sinon.match(/not found/))
     })
 
     it('should handle 403 Forbidden response', async () => {
