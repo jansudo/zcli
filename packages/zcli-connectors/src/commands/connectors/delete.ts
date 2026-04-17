@@ -85,6 +85,13 @@ export default class Delete extends Command {
       // Handle response
       if (response.status === 200 || response.status === 204) {
         this.log(chalk.green(`✓ Connector '${connectorName}' deleted successfully`))
+      } else if (response.status === 404) {
+        const errorMessage = `Connector '${connectorName}' not found. It may have already been deleted or does not exist.`
+        if (flags.verbose) {
+          this.logVerbose('\nError Details:', 'red')
+          this.logVerbose(errorMessage, 'red')
+        }
+        this.error(errorMessage, { exit: 1 })
       } else {
         // Handle error response
         spinner?.stop()
