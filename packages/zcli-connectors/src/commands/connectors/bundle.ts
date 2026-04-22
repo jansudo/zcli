@@ -5,9 +5,10 @@ import * as chalk from 'chalk'
 import { execFileSync } from 'child_process'
 import { ViteConfigBuilder, ViteRunner } from '../../lib/vite'
 import * as ora from 'ora'
+import { displayEarlyAccessWarning } from '../../utils/display'
 
 export default class Bundle extends Command {
-  static description = 'bundles your connector for distribution'
+  static description = 'bundles your connector for distribution (Early Access - Limited Availability)'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',
@@ -40,6 +41,8 @@ export default class Bundle extends Command {
 
   async run (): Promise<void> {
     const { args, flags } = await this.parse(Bundle)
+
+    displayEarlyAccessWarning(this.log.bind(this))
 
     // Resolve connector root once upfront for consistent path handling
     const connectorRoot = resolve(args.path || '.')

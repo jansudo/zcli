@@ -4,9 +4,10 @@ import { execSync } from 'child_process'
 import { copyFileSync, existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
 import { mkdirSync } from 'fs-extra'
 import { dirname, join, resolve } from 'path'
+import { displayEarlyAccessWarning } from '../../utils/display'
 
 export default class Create extends Command {
-  static description = 'scaffolds a new connector project'
+  static description = 'scaffolds a new connector project (Early Access - Limited Availability)'
 
   static examples = [
     '<%= config.bin %> <%= command.id %> connector-name'
@@ -26,6 +27,9 @@ export default class Create extends Command {
 
   async run (): Promise<void> {
     const { args } = await this.parse(Create)
+
+    displayEarlyAccessWarning(this.log.bind(this))
+
     const { connector } = args
     this.log(`creating ${connector} connector ...`)
 

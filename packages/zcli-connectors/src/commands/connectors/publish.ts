@@ -6,9 +6,10 @@ import * as ora from 'ora'
 import { runValidationChecks } from '../../lib/validations'
 import { createConnector, uploadConnectorPackage } from '../../lib/publish/publish'
 import { pollProvisioningStatus } from '../../lib/publish/poller'
+import { displayEarlyAccessWarning } from '../../utils/display'
 
 export default class Publish extends Command {
-  static description = 'publish a connector to the current account'
+  static description = 'publish a connector to the current account (Early Access - Limited Availability)'
 
   static examples = [
     '<%= config.bin %> <%= command.id %> ./example-connector',
@@ -39,6 +40,8 @@ export default class Publish extends Command {
 
   async run (): Promise<void> {
     const { args, flags } = await this.parse(Publish)
+
+    displayEarlyAccessWarning(this.log.bind(this))
 
     let inputPath = resolve(args.path)
 
@@ -113,7 +116,8 @@ export default class Publish extends Command {
         throw new Error(`Connector provisioning was aborted: ${reason ?? 'Unknown reason'}`)
       }
     } catch (error) {
-      spinner.fail(chalk.red('Publish failed'))
+      const errorMessage = (error instanceof Error) ? error.message : String(error)
+      spinner.fail(chalk.red(`Publish failed: ${errorMessage}`))
       throw error
     }
   }

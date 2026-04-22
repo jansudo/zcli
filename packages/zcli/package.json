@@ -68,7 +68,7 @@
         "description": "manage cli user profiles"
       },
       "connectors": {
-        "description": "manage Zendesk connectors workflow"
+        "description": "manage Zendesk connectors workflow [Early Access - Limited Availability]"
       }
     }
   },

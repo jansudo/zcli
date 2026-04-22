@@ -4,9 +4,10 @@ import { join, resolve } from 'path'
 import * as chalk from 'chalk'
 import * as ora from 'ora'
 import { getProvisioningStatus } from '../../lib/publish/status'
+import { displayEarlyAccessWarning } from '../../utils/display'
 
 export default class PublishStatus extends Command {
-  static description = 'check the provisioning status of a connector'
+  static description = 'check the provisioning status of a connector (Early Access - Limited Availability)'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',
@@ -28,6 +29,8 @@ export default class PublishStatus extends Command {
 
   async run (): Promise<void> {
     const { args } = await this.parse(PublishStatus)
+
+    displayEarlyAccessWarning(this.log.bind(this))
 
     const connectorPath = resolve(args.path)
     const distPath = join(connectorPath, 'dist')

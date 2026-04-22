@@ -3,9 +3,10 @@ import * as chalk from 'chalk'
 import * as semver from 'semver'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { join, resolve } from 'path'
+import { displayEarlyAccessWarning } from '../../utils/display'
 
 export default class Bump extends Command {
-  static description = 'bumps the version of your connector'
+  static description = 'bumps the version of your connector (Early Access - Limited Availability)'
 
   static args = [
     { name: 'path', description: 'path to connector directory (defaults to current directory)', default: '.' }
@@ -28,6 +29,9 @@ export default class Bump extends Command {
 
   async run (): Promise<void> {
     const { args, flags } = await this.parse(Bump)
+
+    displayEarlyAccessWarning(this.log.bind(this))
+
     const { major, minor } = flags
     const connectorPath = resolve(args.path || '.')
 
