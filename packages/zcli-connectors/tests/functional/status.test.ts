@@ -39,7 +39,7 @@ describe('publish:status', () => {
 
   describe('command configuration', () => {
     it('should have correct description', () => {
-      expect(PublishStatusCommand.description).to.equal('check the provisioning status of a connector')
+      expect(PublishStatusCommand.description).to.equal('check the provisioning status of a connector (Early Access - Limited Availability)')
     })
 
     it('should have help flag', () => {

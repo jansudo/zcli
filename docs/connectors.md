@@ -1,7 +1,9 @@
 `zcli connectors`
 =================
 
-The `zcli connectors` commands help manage Zendesk connector workflows.
+The `zcli connectors` commands help manage Zendesk connector workflows. **[Early Access - Limited Availability]**
+
+**Note:** Connector development tools are in early access and currently available only to approved developers. If you're interested in connector development, please visit the [waitlist](https://docs.google.com/forms/d/e/1FAIpQLScHEjw23pT4DPQ3t-hxCVAEw-TWtXVpEroVfMGrxlcmaeHfxg/viewform?usp=header).
 
 * [`zcli connectors:bump [PATH]`](#zcli-connectorsbump-path)
 * [`zcli connectors:bundle [PATH]`](#zcli-connectorsbundle-path)

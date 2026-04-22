@@ -2,6 +2,7 @@ import { Command, Flags, CliUx } from '@oclif/core'
 import * as chalk from 'chalk'
 import * as ora from 'ora'
 import { request } from '@zendesk/zcli-core'
+import { displayEarlyAccessWarning } from '../../utils/display'
 
 interface ConnectorListItem {
   connector_name: string
@@ -19,7 +20,7 @@ interface ListConnectorsResponse {
 }
 
 export default class List extends Command {
-  static description = 'list private connectors for the current account'
+  static description = 'list private connectors for the current account (Early Access - Limited Availability)'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>'
@@ -36,6 +37,8 @@ export default class List extends Command {
 
   async run (): Promise<void> {
     const { flags } = await this.parse(List)
+
+    displayEarlyAccessWarning(this.log.bind(this))
 
     if (flags.verbose) {
       this.logVerbose('Verbose mode enabled')

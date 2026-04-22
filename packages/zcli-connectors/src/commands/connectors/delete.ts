@@ -2,9 +2,10 @@ import { Command, Flags, CliUx } from '@oclif/core'
 import * as chalk from 'chalk'
 import * as ora from 'ora'
 import { request } from '@zendesk/zcli-core'
+import { displayEarlyAccessWarning } from '../../utils/display'
 
 export default class Delete extends Command {
-  static description = 'delete a private connector from your account'
+  static description = 'delete a private connector from your account (Early Access - Limited Availability)'
 
   static examples = [
     '<%= config.bin %> <%= command.id %> my-connector',
@@ -36,6 +37,8 @@ export default class Delete extends Command {
 
   async run (): Promise<void> {
     const { args, flags } = await this.parse(Delete)
+
+    displayEarlyAccessWarning(this.log.bind(this))
 
     let connectorName = args.connector
     if (!connectorName) {

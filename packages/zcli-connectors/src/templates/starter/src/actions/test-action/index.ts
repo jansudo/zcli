@@ -11,7 +11,7 @@ export const testAction = action({
         title: 'Name',
         description: 'Name',
         value_type: 'string',
-        control_type: {
+        control: {
           type: 'text',
         },
         required: true,
