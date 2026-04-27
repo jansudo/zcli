@@ -3,7 +3,7 @@ name: Publish to NPM
 on:
   push:
     tags:
-      - 'v*'
+      - v*
 
 permissions:
   contents: read
@@ -19,8 +19,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
-          node-version-file: '.node-version'
-          cache: 'yarn'
+          node-version-file: .node-version
+          cache: yarn
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
