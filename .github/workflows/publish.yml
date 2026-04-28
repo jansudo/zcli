@@ -39,7 +39,7 @@ jobs:
         run: |
           TOTP=$(oathtool --base32 --totp "${NPM_TOTP_DEVICE}")
 
-          yarn lerna publish from-package \
+          yarn --silent lerna publish from-package \
             --yes \
             --otp $TOTP
         env:
