@@ -93,14 +93,11 @@ describe('Auth', () => {
         promptStub.onFirstCall().resolves('z3ntest')
         promptStub.onSecondCall().resolves('test@zendesk.com')
         promptStub.onThirdCall().resolves('123456')
-        fetchStub.withArgs(sinon.match({
-          method: 'GET',
-          url: 'https://z3ntest.zendesk.com/api/v2/account/settings.json',
-          headers: new Headers({
-            Accept: 'application/json, text/plain, */*',
-            Authorization: 'Basic dGVzdEB6ZW5kZXNrLmNvbS90b2tlbjoxMjM0NTY='
-          })
-        }))
+        fetchStub.withArgs(sinon.match((req: Request) =>
+          req.method === 'GET' &&
+          req.url === 'https://z3ntest.zendesk.com/api/v2/account/settings.json' &&
+          req.headers.get('Authorization') === 'Basic dGVzdEB6ZW5kZXNrLmNvbS90b2tlbjoxMjM0NTY='
+        ))
           .resolves({
             status: 200,
             ok: true,
@@ -120,14 +117,11 @@ describe('Auth', () => {
         promptStub.onFirstCall().resolves('z3ntest')
         promptStub.onSecondCall().resolves('test@zendesk.com')
         promptStub.onThirdCall().resolves('123456')
-        fetchStub.withArgs(sinon.match({
-          method: 'GET',
-          url: 'https://z3ntest.example.com/api/v2/account/settings.json',
-          headers: new Headers({
-            Accept: 'application/json, text/plain, */*',
-            Authorization: 'Basic dGVzdEB6ZW5kZXNrLmNvbS90b2tlbjoxMjM0NTY='
-          })
-        }))
+        fetchStub.withArgs(sinon.match((req: Request) =>
+          req.method === 'GET' &&
+          req.url === 'https://z3ntest.example.com/api/v2/account/settings.json' &&
+          req.headers.get('Authorization') === 'Basic dGVzdEB6ZW5kZXNrLmNvbS90b2tlbjoxMjM0NTY='
+        ))
           .resolves({
             status: 200,
             ok: true,
@@ -146,14 +140,11 @@ describe('Auth', () => {
         promptStub.reset()
         promptStub.onFirstCall().resolves('test@zendesk.com')
         promptStub.onSecondCall().resolves('123456')
-        fetchStub.withArgs(sinon.match({
-          method: 'GET',
-          url: 'https://z3ntest.example.com/api/v2/account/settings.json',
-          headers: new Headers({
-            Accept: 'application/json, text/plain, */*',
-            Authorization: 'Basic dGVzdEB6ZW5kZXNrLmNvbS90b2tlbjoxMjM0NTY='
-          })
-        }))
+        fetchStub.withArgs(sinon.match((req: Request) =>
+          req.method === 'GET' &&
+          req.url === 'https://z3ntest.example.com/api/v2/account/settings.json' &&
+          req.headers.get('Authorization') === 'Basic dGVzdEB6ZW5kZXNrLmNvbS90b2tlbjoxMjM0NTY='
+        ))
           .resolves({
             status: 200,
             ok: true,
@@ -173,14 +164,11 @@ describe('Auth', () => {
         promptStub.onFirstCall().resolves('z3ntest')
         promptStub.onSecondCall().resolves('test@zendesk.com')
         promptStub.onThirdCall().resolves('123456')
-        fetchStub.withArgs(sinon.match({
-          method: 'GET',
-          url: 'https://z3ntest.zendesk.com/api/v2/account/settings.json',
-          headers: new Headers({
-            Accept: 'application/json, text/plain, */*',
-            Authorization: 'Basic dGVzdEB6ZW5kZXNrLmNvbS90b2tlbjoxMjM0NTY='
-          })
-        }))
+        fetchStub.withArgs(sinon.match((req: Request) =>
+          req.method === 'GET' &&
+          req.url === 'https://z3ntest.zendesk.com/api/v2/account/settings.json' &&
+          req.headers.get('Authorization') === 'Basic dGVzdEB6ZW5kZXNrLmNvbS90b2tlbjoxMjM0NTY='
+        ))
           .resolves({
             status: 403,
             ok: false,

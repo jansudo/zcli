@@ -54,6 +54,7 @@ describe('themes:update', function () {
         })).resolves({
           status: 200,
           ok: true,
+          headers: new Headers(),
           text: () => Promise.resolve('')
         })
       })
@@ -147,6 +148,7 @@ describe('themes:update', function () {
         })).resolves({
           status: 200,
           ok: true,
+          headers: new Headers(),
           text: () => Promise.resolve('')
         })
       })

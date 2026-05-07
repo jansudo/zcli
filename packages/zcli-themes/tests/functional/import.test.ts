@@ -58,6 +58,7 @@ describe('themes:import', function () {
         })).resolves({
           status: 200,
           ok: true,
+          headers: new Headers(),
           text: () => Promise.resolve('')
         })
       })
@@ -155,6 +156,7 @@ describe('themes:import', function () {
         })).resolves({
           status: 200,
           ok: true,
+          headers: new Headers(),
           text: () => Promise.resolve('')
         })
       })
