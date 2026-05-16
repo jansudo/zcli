@@ -1,0 +1,21 @@
+name: Vulnerable Demo - Script Injection PoC
+on:
+  workflow_dispatch:
+    inputs:
+      release-type:
+        description: 'Release type'
+        required: true
+        type: choice
+        options:
+          - --conventional-prerelease
+          - --conventional-graduate
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Vulnerable command execution
+        run: |
+          echo "=== Executing with input ==="
+          echo "Input value: ${{ inputs.release-type }}"
+          echo "=== End ==="
