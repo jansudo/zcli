@@ -3,12 +3,9 @@ on:
   workflow_dispatch:
     inputs:
       release-type:
-        description: 'Release type'
+        description: Release type string
         required: true
-        type: choice
-        options:
-          - --conventional-prerelease
-          - --conventional-graduate
+        type: string
 
 jobs:
   demo:
@@ -19,3 +16,4 @@ jobs:
           echo "=== Executing with input ==="
           echo "Input value: ${{ inputs.release-type }}"
           echo "=== End ==="
+
